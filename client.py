@@ -6,14 +6,15 @@ import socket
 
 class Client():
 
-    def __init__(self,publicIP,Offset,filename):
+    def __init__(self,publicIP,start_Offset,end_Offset,filename):
         self.HEADER = 64
         self.PORT = 5050
         self.FORMAT = 'utf-8'
         self.DISCONNECT_MESSAGE = "!DISCONNECT"
         self.SERVER = publicIP
         self.ADDR = (self.SERVER, self.PORT)
-        self.Offset = Offset
+        self.start_Offset = start_Offset
+        self.end_Offset = end_Offset
         self.sourcefile = filename
         self.connect()
 
@@ -46,7 +47,7 @@ class Client():
         self.client_ack.send(msg)
 
     def receiving(self,target,location):
-        msg,length = self.encoding(f"{self.filename};{self.Offset},0")
+        msg,length = self.encoding(f"{self.filename};{self.start_Offset};{self.end_Offset},0")
         self.client_dt.send(length)
         self.client_dt.send(msg)
         print("Started receiving")
