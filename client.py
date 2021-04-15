@@ -32,7 +32,7 @@ class Client():
         return message,send_length
 
     def handshake(self):
-        msg,length = self.encoding(self.sourcefile)
+        msg,length = self.encoding(f"{self.sourcefile},1")
         self.client_ack.send(length)
         self.client_ack.send(msg)
         file_ack = self.client_ack.recv(1024).decode(self.FORMAT)
@@ -46,25 +46,25 @@ class Client():
         self.client_ack.send(length)
         self.client_ack.send(msg)
 
-    def receiving(self,target,location):
+    def receiving(self,location):
         msg,length = self.encoding(f"{self.filename};{self.start_Offset};{self.end_Offset},0")
         self.client_dt.send(length)
         self.client_dt.send(msg)
         print("Started receiving")
         Receiving = True
         os.chdir(location)
-        size2 = self.size
+        size2 = self.end_Offset - self.start_Offset
         data = ""
         while True:
-            with open(target,'ab') as dest:
+            with open(self.SERVER,'ab') as dest:
                 data = ""
                 if size2 == 0:
                     break
-                data = client_dt.recv(10240)
+                data = self.client_dt.recv(10240)
                 print(len(data))
                 size2 -= len(data)
                 dest.write(data)
-        print("Receiving complete")
-        print(os.path.getsize(target))
+        print(f"Receiving complete from {self.SERVER}")
+        print(os.path.getsize(self.SERVER))
         self.disconnect()
     
