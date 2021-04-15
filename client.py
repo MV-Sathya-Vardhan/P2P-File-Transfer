@@ -60,7 +60,7 @@ class Client():
                 data = ""
                 if size2 == 0:
                     break
-                data = self.client_dt.recv(10240)
+                data = self.client_dt.recv(2048000)
                 print(len(data))
                 size2 -= len(data)
                 dest.write(data)
