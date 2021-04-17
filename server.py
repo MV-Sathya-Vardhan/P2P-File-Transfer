@@ -56,7 +56,7 @@ class Server:
     def sendfile(self,msg,conn):#make temp file and copy data acc to offset
         filename, start_offset, end_offset = msg.split(';')[0], int(msg.split(';')[1]), int(msg.split(';')[2])
         temp_offset = start_offset
-        chunksize = min(end_offset - start_offset , 1024)
+        chunksize = min(end_offset - start_offset , 2048000)
         data_sent = 0
         tempfile = ''
         while data_sent != (end_offset - start_offset):
@@ -68,7 +68,7 @@ class Server:
                 data_sent += len(data)
                 print(data_sent)
                 temp_offset += len(data)
-                chunksize = min(end_offset - data_sent , 1024)
+                chunksize = min(end_offset - data_sent , 2048000)
         conn.send(b'')        
         print("Sending complete")
     
