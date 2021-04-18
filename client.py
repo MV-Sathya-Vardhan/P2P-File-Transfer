@@ -37,7 +37,7 @@ class Client():
         self.client_ack.send(msg)
         file_ack = self.client_ack.recv(1024).decode(self.FORMAT)
         self.filename,self.size = file_ack.split(',')
-        print(f"{self.filename} with size {self.size} Found on SERVER! ")
+        print(f"{self.filename} with size {self.size} Found on {self.SERVER}")
 
     def disconnect(self):
         msg,length = self.encoding(self.DISCONNECT_MESSAGE)
@@ -55,15 +55,18 @@ class Client():
         os.chdir(location)
         size2 = self.end_Offset - self.start_Offset
         data = ""
+        count= 0
         while True:
             with open(self.SERVER,'ab') as dest:
                 data = ""
                 if size2 == 0:
                     break
                 data = self.client_dt.recv(2048000)
-                print(len(data))
                 size2 -= len(data)
                 dest.write(data)
+            count += 1
+            if count % 10 == 0:
+                print("[RECEIVING]...")
         print(f"Receiving complete from {self.SERVER}")
         print(os.path.getsize(self.SERVER))
         self.disconnect()
