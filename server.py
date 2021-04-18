@@ -59,18 +59,20 @@ class Server:
         chunksize = min(end_offset - start_offset , 2048000)
         data_sent = 0
         tempfile = ''
+        count = 0
         while data_sent != (end_offset - start_offset):
             tempfile = self.chunks(filename,temp_offset,chunksize)
             with open(tempfile,'rb') as file:
                 data = file.read()
                 conn.send(data)
-                print(len(data))
                 data_sent += len(data)
-                print(data_sent)
                 temp_offset += len(data)
                 chunksize = min(end_offset - data_sent , 2048000)
+            count += 1
+            if count % 10 == 0:
+                print("[SENDING]...")
         conn.send(b'')        
-        print("Sending complete")
+        print("[COMPLETED] Sending complete...")
     
     def start(self):
         print("[STARTING] server is starting...")
