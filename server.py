@@ -67,7 +67,7 @@ class Server:
                 conn.send(data)
                 data_sent += len(data)
                 temp_offset += len(data)
-                chunksize = min(end_offset - data_sent , 2048000)
+                chunksize = min(end_offset - (data_sent + start_offset), 2048000)
             count += 1
             if count % 10 == 0:
                 print("[SENDING]...")
