@@ -1,5 +1,7 @@
 Peer to Peer File Transfer.
-Aim is to create a server for peer- to- peer sharing using python from scratch.
+Aim is to create a network for peer-to-peer file sharing using python.
+
+References:
 https://stackoverflow.com/questions/17667903/python-socket-receive-large-amount-of-data/17668009#comment102639651_17668009
 https://docs.python.org/3/library/socket.html
 https://www.techwithtim.net/tutorials/socket-programming/
